@@ -11,6 +11,8 @@ function calculate(){
    let result= operate(expression[1],expression[0],expression[2]);
    result=(typeof result === 'number') ? Math.floor(result*1000000)/1000000 : result;
    input.textContent=result;
+   number=result;
+   enableDot=(Math.ceil(result) > result )? false:true;
    expression.splice(0,3);
    expression[0]=result;
    count=0;
@@ -22,13 +24,25 @@ let count=0;
 let number="";
 input.textContent="0";
 let iter=0;
+let enableDot=true;
 keyArr.forEach(element => {
     if (count <=2){
         element.addEventListener('click',(e)=>{
-            if (!element.classList.contains("opr")){
+            if (!element.classList.contains("opr")&&(!(element.textContent==="."))){    
                 number+=element.textContent;
                 expression[count]=number;
-                input.textContent=number;
+                input.textContent=number; 
+            }
+            else if((element.textContent===".")){
+                if (enableDot){
+                    number+=element.textContent;
+                    expression[count]=number;
+                    input.textContent=number; 
+                    enableDot=false;
+                }
+                else {
+                    return;
+                }
             }
             else{
                 if (expression.includes("+")||expression.includes("-")||expression.includes("*")||expression.includes("/")){
@@ -38,6 +52,7 @@ keyArr.forEach(element => {
                 count++;
                 expression[count]=element.textContent;
                 count++;
+                enableDot=true;
             }
         });
         
@@ -49,6 +64,7 @@ clear.addEventListener("click",()=>{
     expression.splice(0,3);
     count=0;
     iter=0;
+    enableDot=true;
 })
 let num1;
 let num2;
