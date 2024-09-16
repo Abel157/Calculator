@@ -4,17 +4,19 @@ const clear=document.querySelector("#clear");
 const key=document.querySelectorAll(".key");
 const operator=document.querySelectorAll(".opr");
 const equals=document.querySelector(".calculate");
-equals.addEventListener('click', ()=>{
+function calculate(){
    const result= operate(expression[1],expression[0],expression[2]);
    input.textContent=result;
    expression.splice(0,3);
    expression[0]=result;
    count=0;
-})
+}
+equals.addEventListener('click', calculate);
 const keyArr=Array.from(key);
 let expression=new Array(3);
 let count=0;
 let number="";
+input.textContent="0";
 keyArr.forEach(element => {
     if (count <=2){
         element.addEventListener('click',(e)=>{
@@ -24,10 +26,14 @@ keyArr.forEach(element => {
                 input.textContent=number;
             }
             else{
+                if (expression.includes("+")||expression.includes("-")||expression.includes("*")||expression.includes("/")){
+                    calculate();
+                }
                 number="";
                 count++;
                 expression[count]=element.textContent;
                 count++;
+                
             }
         });
     }
