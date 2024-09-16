@@ -5,11 +5,18 @@ const key=document.querySelectorAll(".key");
 const operator=document.querySelectorAll(".opr");
 const equals=document.querySelector(".calculate");
 function calculate(){
-   const result= operate(expression[1],expression[0],expression[2]);
-   input.textContent=result;
-   expression.splice(0,3);
-   expression[0]=result;
-   count=0;
+   if (expression[0]===undefined) expression[0]="0";
+   if (expression[2]===undefined) expression[2]="0";
+   if (expression[1]===undefined) expression[1]="+";
+   let result= operate(expression[1],expression[0],expression[2]);
+   result=Math.floor(result*1000000)/1000000;
+   if (result===Infinity) input.textContent="Division by zero is not Allowed";
+   else{
+    input.textContent=result;
+    expression.splice(0,3);
+    expression[0]=result;
+    count=0;
+   };
 }
 equals.addEventListener('click', calculate);
 const keyArr=Array.from(key);
@@ -17,6 +24,7 @@ let expression=new Array(3);
 let count=0;
 let number="";
 input.textContent="0";
+let iter=0;
 keyArr.forEach(element => {
     if (count <=2){
         element.addEventListener('click',(e)=>{
@@ -27,15 +35,15 @@ keyArr.forEach(element => {
             }
             else{
                 if (expression.includes("+")||expression.includes("-")||expression.includes("*")||expression.includes("/")){
-                    calculate();
+                        calculate();
                 }
                 number="";
                 count++;
                 expression[count]=element.textContent;
                 count++;
-                
             }
         });
+        
     }
 });
 clear.addEventListener("click",()=>{
@@ -43,6 +51,7 @@ clear.addEventListener("click",()=>{
     input.textContent="0"
     expression.splice(0,3);
     count=0;
+    iter=0;
 })
 let num1;
 let num2;
