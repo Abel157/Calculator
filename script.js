@@ -9,14 +9,11 @@ function calculate(){
    if (expression[2]===undefined) expression[2]="0";
    if (expression[1]===undefined) expression[1]="+";
    let result= operate(expression[1],expression[0],expression[2]);
-   result=Math.floor(result*1000000)/1000000;
-   if (result===Infinity) input.textContent="Division by zero is not Allowed";
-   else{
-    input.textContent=result;
-    expression.splice(0,3);
-    expression[0]=result;
-    count=0;
-   };
+   result=(typeof result === 'number') ? Math.floor(result*1000000)/1000000 : result;
+   input.textContent=result;
+   expression.splice(0,3);
+   expression[0]=result;
+   count=0;
 }
 equals.addEventListener('click', calculate);
 const keyArr=Array.from(key);
@@ -66,7 +63,10 @@ function multiply(a,b){
     return a*b;
 };
 function divide(a,b){
-    return a/b;
+    if (b==0) return "Division by zero is not Allowed";
+    else {
+        return a/b;
+    };
 };
  function operate (opr, num1, num2){
     num1=+num1;
