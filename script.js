@@ -1,5 +1,5 @@
 const input=document.querySelector(".input");
-
+const backSpace=document.querySelector("#backSpace");
 const clear=document.querySelector("#clear");
 const key=document.querySelectorAll(".key");
 const operator=document.querySelectorAll(".opr");
@@ -11,7 +11,7 @@ function calculate(){
    let result= operate(expression[1],expression[0],expression[2]);
    result=(typeof result === 'number') ? Math.floor(result*1000000)/1000000 : result;
    input.textContent=result;
-   number=result;
+   number=`${result}`;
    enableDot=(Math.ceil(result) > result )? false:true;
    expression.splice(0,3);
    expression[0]=result;
@@ -63,12 +63,22 @@ clear.addEventListener("click",()=>{
     input.textContent="0"
     expression.splice(0,3);
     count=0;
-    iter=0;
     enableDot=true;
-})
-let num1;
-let num2;
-let opr;
+});
+let trim;
+let stri;
+backSpace.addEventListener("click",()=>{
+    trim=number.split("");
+    trim.splice(-1,1);
+    trim=trim.join("");
+    number=trim;
+    input.textContent=number;
+    expression[count]=number;
+    if (expression[0]==='') {
+        expression[0]="0";
+        input.textContent="0";
+    };
+});
 function add(a,b){
     return a+b;
 };
