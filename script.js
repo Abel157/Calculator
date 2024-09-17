@@ -5,6 +5,7 @@ const key=document.querySelectorAll(".key");
 const operator=document.querySelectorAll(".opr");
 const equals=document.querySelector(".calculate");
 function calculate(){
+    // if the user enters an operator first 
    if (expression[0]===undefined) expression[0]="0";
    if (expression[2]===undefined) expression[2]="0";
    if (expression[1]===undefined) expression[1]="+";
@@ -15,6 +16,7 @@ function calculate(){
    enableDot=(Math.ceil(result) > result )? false:true;
    expression.splice(0,3);
    expression[0]=result;
+   keyArr.forEach(element => { element.setAttribute("style","none")});
    count=0;
 }
 equals.addEventListener('click', calculate);
@@ -28,6 +30,7 @@ let enableDot=true;
 keyArr.forEach(element => {
     if (count <=2){
         element.addEventListener('click',(e)=>{
+            element.setAttribute("style",("background-color: grey"));
             if (!element.classList.contains("opr")&&(!(element.textContent==="."))){    
                 number+=element.textContent;
                 expression[count]=number;
@@ -45,9 +48,11 @@ keyArr.forEach(element => {
                 }
             }
             else{
+                keyArr.forEach(element => { element.setAttribute("style","none")}); 
                 if (expression.includes("+")||expression.includes("-")||expression.includes("*")||expression.includes("/")){
                         calculate();
                 }
+                element.setAttribute("style",("background-color:red"));
                 number="";
                 count++;
                 expression[count]=element.textContent;
@@ -64,9 +69,9 @@ clear.addEventListener("click",()=>{
     expression.splice(0,3);
     count=0;
     enableDot=true;
+    keyArr.forEach(element => { element.setAttribute("style","none")});
 });
 let trim;
-let stri;
 backSpace.addEventListener("click",()=>{
     trim=number.split("");
     trim.splice(-1,1);
